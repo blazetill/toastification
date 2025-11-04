@@ -124,6 +124,7 @@ class _ToastTimerAnimationBuilderState extends State<ToastTimerAnimationBuilder>
         vsync: this,
         debugLabel: 'ToastTimerAnimationBuilder',
       );
+      print('Init1 controller $controller');
 
       widget.item.addListenerOnTimeStatus(_timeStatusListener);
 
@@ -135,7 +136,9 @@ class _ToastTimerAnimationBuilderState extends State<ToastTimerAnimationBuilder>
         value: 0,
         duration: widget.item.originalDuration,
         vsync: this,
+        debugLabel: 'ToastTimerAnimationBuilder_no_timer',
       );
+      print('Init2 controller $controller');
     }
   }
 
