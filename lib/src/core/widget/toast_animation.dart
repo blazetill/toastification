@@ -122,6 +122,7 @@ class _ToastTimerAnimationBuilderState extends State<ToastTimerAnimationBuilder>
         ),
         duration: widget.item.originalDuration,
         vsync: this,
+        debugLabel: 'ToastTimerAnimationBuilder',
       );
 
       widget.item.addListenerOnTimeStatus(_timeStatusListener);
