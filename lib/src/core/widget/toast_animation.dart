@@ -27,11 +27,11 @@ class DefaultToastificationTransition extends AnimatedWidget {
 
     final slideOffset = isCenter
         ? alignment.y >= 0
-            ? const Offset(0, 1)
-            : const Offset(0, -1)
+              ? const Offset(0, 1)
+              : const Offset(0, -1)
         : alignment.x >= 0
-            ? const Offset(1, 0)
-            : const Offset(-1, 0);
+        ? const Offset(1, 0)
+        : const Offset(-1, 0);
 
     return FadeTransition(
       opacity: animation,
@@ -70,7 +70,7 @@ class ToastTimerAnimationBuilder extends StatefulWidget {
 
 class _ToastTimerAnimationBuilderState extends State<ToastTimerAnimationBuilder>
     with SingleTickerProviderStateMixin {
-  late AnimationController controller;
+  AnimationController? controller;
 
   @override
   void initState() {
@@ -97,17 +97,20 @@ class _ToastTimerAnimationBuilderState extends State<ToastTimerAnimationBuilder>
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: controller,
+      animation: controller!,
       child: widget.child,
       builder: (context, child) {
-        return widget.builder(context, controller.value, child);
+        return widget.builder(context, controller!.value, child);
       },
     );
   }
 
   void _disposeAnimation() {
-    controller.dispose();
-    widget.item.removeListenerOnTimeStatus(_timeStatusListener);
+    if (controller != null) {
+      controller!.dispose();
+      controller = null;
+      widget.item.removeListenerOnTimeStatus(_timeStatusListener);
+    }
   }
 
   void _initAnimation() {
@@ -143,18 +146,20 @@ class _ToastTimerAnimationBuilderState extends State<ToastTimerAnimationBuilder>
   }
 
   void _timeStatusListener() {
+    if (controller == null) return;
+
     switch (widget.item.timeStatus) {
       case ToastTimeStatus.init:
-        controller.reset();
+        controller!.reset();
         break;
       case ToastTimeStatus.started:
-        controller.forward();
+        controller!.forward();
         break;
       case ToastTimeStatus.paused:
-        controller.stop(canceled: false);
+        controller!.stop(canceled: false);
         break;
       case ToastTimeStatus.stopped:
-        controller.stop(canceled: false);
+        controller!.stop(canceled: false);
         break;
       case ToastTimeStatus.finished:
         break;
