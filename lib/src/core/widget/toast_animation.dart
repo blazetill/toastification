@@ -132,7 +132,7 @@ class _ToastTimerAnimationBuilderState extends State<ToastTimerAnimationBuilder>
       widget.item.addListenerOnTimeStatus(_timeStatusListener);
 
       if (widget.item.isStarted) {
-        controller.forward();
+        controller?.forward();
       }
     } else {
       controller = AnimationController(
